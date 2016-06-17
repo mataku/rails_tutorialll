@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root             'static_pages#home'
+  root 'static_pages#home'
 
   # get 'test' => 'hobby/about'
   # => /test のurlに、app/views/hobby/about.html.erbを出す
