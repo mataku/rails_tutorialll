@@ -3,10 +3,14 @@ rvm:
 - 2.3.1
 bundler_args: "--without development --deployment"
 cache: bundler
+
 before_script:
-- bundle exec rake db:create - bundle exec rake db:migrate
+  - bundle exec rake db:create 
+  - bundle exec rake db:migrate
+
 script:
 - bundle exec rake test
+
 notifications:
   slack:
     secure: BHLnsqhOlVdid+5+GNV/t03nxtS9E+L/DNFbyribtXcefSHAiiELNYfZLjb9PC1q2viQ7msxRzLTb07qVY6wypm3pBDkKlQi8QAhv4cc53+lA0qXJSN6hMtwqHxfv69NWK5DZQQRlAPf8VVGf1WJp4J3ts8EqpEWxndrnt8UwAxYUWUp638H8tABvyap4izpv0yJlbldT/fCMZ5DQNvQ/8QadVVYZot2o+a46DmwnlTmiUXuNtSm9XhP15vqU7wrmnkv+j26G2PGMLo5Mvwi/jZQJ6MFX/gaEjQpcvS6By4dN/p+C5JbuX432oJ9eTpD+xeki2Uplz5UM5C681So9iAxbnfDGbQntIsddaCm3nlq6JLOpS1YnRbqes3jdZ9RD3kCiM+U0Ta5mJ8xna4y/7W6PVqHbCQyMW4NU+gTO0vg2PvZhVoNDPa7HdluZtvM5Sq3CJ+bHe5/0LfGnCq1phuZyOEqCM0a1E2OyI13/duscxllVs808TD/bf/pA1b1qKjN0+rByHvGOkzl9QQxXdZ38Z92tb+2TPM/rDo9jVWTPJKjVma9I0Z/kGiaSew0OixAmJQnTVHnNpoaAr6p2FJctTnIy8HTqKM/FsswcE+kh0kOlSnfQUOFwry91GkuD3fa1sl70Z1704mWaXX2C3MEWwU+CBMHToHexi1I36Y=
