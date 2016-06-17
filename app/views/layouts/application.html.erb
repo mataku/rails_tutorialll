@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= full_title(yield(:title)) %></title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title><%= full_title(yield(:title)) %></title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
 
-<%= yield %>
+    <!-- htmlがごちゃごちゃさせないように、分けられるものは分ける -->
+    <!-- 下では app/views/layouts/_shim.html.erb が呼ばれる -->
+    <!-- 内容: IEだとcssの都合上あれだから別のやつ持ってきます -->
+    <%= render 'layouts/shim' %>
 
-</body>
+
+  </head>
+  <body>
+    <!-- app/views/layouts/_header.html.erb -->
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <%= yield %>
+      <%= render 'layouts/footer' %>
+    </div>
+  </body>
 </html>
