@@ -14,6 +14,21 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
+  # mail
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  host = 'matakurails.herokuapp.com'
+  config.action_mailer.default_url_options = { host: host, protocol: 'https' }
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.lolipop.jp',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => ENV["EMAIL_ADDRESS"],
+    :password       => ENV["EMAIL_PASSWORD"],
+    :domain         => 'rhythnn.net',
+    :enable_starttls_auto => true
+  }
+
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like
