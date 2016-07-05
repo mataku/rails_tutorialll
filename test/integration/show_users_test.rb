@@ -12,20 +12,23 @@ class ShowUsersTest < ActionDispatch::IntegrationTest
     @non_active_user = users(:archer)
   end
 
-  test "show users for activated user" do
-    get root_path
-    log_in_as(@login_user)
-    get user_path(@active_user)
-    assert_match /users\//, response.body
-    assert_match /users\/\d/, response.body
-  end
+  test "behavior of /users page" do
 
-  test "show users for non activated user" do
     get root_path
     log_in_as(@login_user)
+    get users_path
+
+    # Lana Kaneさんは activated:true なので表示されるはず
+    assert_match /Lana Kane/, response.body
+
+    # Sterling Archerさんは activated:false なので表示されないはず
+    assert_no_match /Sterling Archer/, response.body
+
+    get user_path(@active_user)
+    assert_response :success
+
     get user_path(@non_active_user)
-    p user_path(@non_active_user)
-    assert_match /users\//, response.body
-    assert_match /users\/\d/, response.body
+    assert_redirected_to root_url
+
   end
 end

@@ -45,6 +45,8 @@ gem 'bootstrap-will_paginate',  '0.0.10'
 
 # gem 'web-console', group: :development
 
+gem 'dotenv-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '3.4.0'

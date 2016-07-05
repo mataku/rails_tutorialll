@@ -25,6 +25,10 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     get users_path
     assert_template 'users/index'
     assert_select 'div.pagination'
+
+    # exercisesにて, activatedでないと、表示できないようにした
+    # それ用にテストを書き換える
+
     first_page_of_users = User.where(activated: true).paginate(page: 1)
     first_page_of_users.each do |user|
       assert_select 'a[href=?]', user_path(user), text: user.name
