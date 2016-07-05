@@ -40,6 +40,9 @@ gem 'bootstrap-will_paginate',  '0.0.10'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+# 環境変数
+gem 'dotenv-rails'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
