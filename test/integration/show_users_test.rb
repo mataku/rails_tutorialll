@@ -19,10 +19,10 @@ class ShowUsersTest < ActionDispatch::IntegrationTest
     get users_path
 
     # Lana Kaneさんは activated:true なので表示されるはず
-    assert_match /Lana Kane/, response.body
+    assert_match /Lana\ Kane/i, response.body
 
     # Sterling Archerさんは activated:false なので表示されていないはず
-    assert_no_match /Sterling Archer/, response.body
+    assert_no_match /Sterling\ Archer/i, response.body
 
     # users/:id (activated userは見れる)
     get user_path(@active_user)
