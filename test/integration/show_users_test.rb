@@ -4,9 +4,9 @@ class ShowUsersTest < ActionDispatch::IntegrationTest
   def setup
     @login_user = users(:michael)
 
-    # users.ymlにて
+    # test/fixtures/users.ymlにて
     # lanaさん: activated: true
-    # archerさんを activated: falseに指定した
+    # archer(Sterling Archer)さんを activated: falseに指定してテストをしてみる
 
     @active_user = users(:lana)
     @non_active_user = users(:archer)
@@ -21,12 +21,14 @@ class ShowUsersTest < ActionDispatch::IntegrationTest
     # Lana Kaneさんは activated:true なので表示されるはず
     assert_match /Lana Kane/, response.body
 
-    # Sterling Archerさんは activated:false なので表示されないはず
+    # Sterling Archerさんは activated:false なので表示されていないはず
     assert_no_match /Sterling Archer/, response.body
 
+    # users/:id (activated userは見れる)
     get user_path(@active_user)
     assert_response :success
 
+    # users/:id (non activated userは見れずに、rootへ戻される)
     get user_path(@non_active_user)
     assert_redirected_to root_url
 
