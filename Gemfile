@@ -55,6 +55,8 @@ group :development, :test do
   gem 'spring'
 
   gem 'web-console',  '2.0.0.beta3'
+
+  gem 'dotenv-rails'
 end
 
 group :test do
