@@ -14,7 +14,7 @@ class MicropostsControllerTest < ActionController::TestCase
     # 否定形: assert_no_difference(式, message=nil)
     # ブロックの最初と最後で、式の結果にdifferenceの差異が出なければ成功
     assert_no_difference 'Micropost.count' do
-      delete :destroy, id: @micropost
+      post :create, micropost: { content: "Lorem ipsum" }
     end
     assert_redirected_to login_url
   end
