@@ -62,4 +62,18 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.authenticated?(:remember, '')
   end
 
+  test "associated microposts should be destroyed" do
+    @user.save
+    @user.microposts.create!(content: "Lorem ipsum")
+
+    # assert_difference
+    # 第一引数(Micropost.count)の値が
+    # ブロック内の処理を行うことで期待される動作(第二引数: -1)になることの確認
+    # 第二引数を省略した場合は'+1'が入る
+
+    assert_difference "Micropost.count", -1 do
+      @user.destroy
+    end
+  end
+
 end
