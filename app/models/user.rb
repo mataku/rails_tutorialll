@@ -74,6 +74,7 @@ class User < ActiveRecord::Base
   end
 
   def feed
+    # フォローしている人の投稿を表示させる
     # SQL
     following_ids = "SELECT followed_id FROM relationships
                      WHERE follower_id = :user_id"
