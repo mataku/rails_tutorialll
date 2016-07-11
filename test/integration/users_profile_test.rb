@@ -21,5 +21,28 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     @user.microposts.paginate(page: 1).each do |micropost|
       assert_match micropost.content, response.body
     end
+
+    # following, followers がリンクとして機能しているか
+    assert_select "a[href=?]", following_user_path(@user)
+    assert_select "a[href=?]", followers_user_path(@user)
+  end
+
+  test "stats on home and profile pages" do
+    # Homeページ
+    log_in_as(@user)
+    get root_path
+    # following, followers の表示部分
+    # フォロー数の表示がユーザーのものと一致しているか
+    assert_select "#following", text: @user.following.count.to_s
+    # フォロわー数の表示がユーザーのものと一致しているか
+    assert_select "#followers", text: @user.followers.count.to_s
+
+    # usersページ
+    get user_path(@user)
+    # フォロー数の表示がユーザーのものと一致しているか
+    assert_select "#following", text: @user.following.count.to_s
+    # フォロわー数の表示がユーザーのものと一致しているか
+    assert_select "#followers", text: @user.followers.count.to_s
+
   end
 end

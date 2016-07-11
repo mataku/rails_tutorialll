@@ -60,4 +60,17 @@ class FollowingTest < ActionDispatch::IntegrationTest
       xhr :delete, relationship_path(relationship)
     end
   end
+
+  # Homeにfeedの1ページ目の投稿が表示されているかのテスト
+  test "feed on Home page" do
+    get root_path
+    # 1ページ目のmicropostを全て取ってくる
+    @user.feed.paginate(page: 1).each do |micropost|
+      assert_match CGI.escapeHTML(micropost.content), response.body
+      # 画像が表示されているか
+      if micropost.picture?
+        assert_match CGI.escapeHTML(micropost.picture), response.body
+      end
+    end
+  end
 end
