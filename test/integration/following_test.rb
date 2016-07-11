@@ -4,10 +4,11 @@ class FollowingTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael) # follows lana and malory, followed by lana and archer (relationships.yml)
-    @other = users(:archer)
+    @other = users(:archer) # follows michael
     log_in_as(@user)
   end
 
+  # following ページが動作しているか
   test "following page" do
     get following_user_path(@user)
     assert_not @user.following.empty?
@@ -17,6 +18,7 @@ class FollowingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # followersページが動作しているか
   test "followers page" do
     get followers_user_path(@user)
     assert_not @user.followers.empty?
@@ -32,6 +34,7 @@ class FollowingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Ajaxを使用した場合の、followテスト
   test "should follow a user with Ajax" do
     assert_difference '@user.following.count', 1 do
       xhr :post, relationships_path, followed_id: @other.id
@@ -46,10 +49,14 @@ class FollowingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Ajaxを使用した場合の、unfollowの動作テスト
   test "should unfollow a user with Ajax" do
     @user.follow(@other)
     relationship = @user.active_relationships.find_by(followed_id: @other.id)
     assert_difference '@user.following.count', -1 do
+      # xhr: XmlHttpRequest
+      # javascriptのメソッドを実行できているか
+
       xhr :delete, relationship_path(relationship)
     end
   end
