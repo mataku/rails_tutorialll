@@ -34,14 +34,14 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     # following, followers の表示部分
     # フォロー数の表示がユーザーのものと一致しているか
     assert_select "#following", text: @user.following.count.to_s
-    # フォロわー数の表示がユーザーのものと一致しているか
+    # フォロワー数の表示がユーザーのものと一致しているか
     assert_select "#followers", text: @user.followers.count.to_s
 
     # usersページ
     get user_path(@user)
     # フォロー数の表示がユーザーのものと一致しているか
     assert_select "#following", text: @user.following.count.to_s
-    # フォロわー数の表示がユーザーのものと一致しているか
+    # フォロワー数の表示がユーザーのものと一致しているか
     assert_select "#followers", text: @user.followers.count.to_s
 
   end

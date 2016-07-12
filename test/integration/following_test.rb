@@ -67,10 +67,10 @@ class FollowingTest < ActionDispatch::IntegrationTest
     # 1ページ目のmicropostを全て取ってくる
     @user.feed.paginate(page: 1).each do |micropost|
       assert_match CGI.escapeHTML(micropost.content), response.body
-      # 画像が表示されているか
-      if micropost.picture?
-        assert_match CGI.escapeHTML(micropost.picture), response.body
-      end
+      # 画像が表示されているか (発展でやる)
+      # if micropost.picture?
+      #   assert_match CGI.escapeHTML(micropost.picture), response.body
+      # end
     end
   end
 end
