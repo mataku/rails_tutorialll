@@ -5,6 +5,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
+    @following_count = @user.following.count.to_s
+    @followers_count = @user.followers.count.to_s
   end
 
   test "profile display" do
@@ -23,22 +25,28 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "stats on home and profile pages" do
+  test "stats on home page" do
     # Homeページ
     log_in_as(@user)
     get root_path
+
     # following, followers の表示部分
     # フォロー数の表示がユーザーのものと一致しているか
-    assert_select "#following", text: @user.following.count.to_s
+    assert_select "#following", text: @following_count
     # フォロワー数の表示がユーザーのものと一致しているか
-    assert_select "#followers", text: @user.followers.count.to_s
+    assert_select "#followers", text: @followers_count
+    
+  end
 
+  test "stats on users page" do
     # usersページ
+    log_in_as(@user)
     get user_path(@user)
+
     # フォロー数の表示がユーザーのものと一致しているか
-    assert_select "#following", text: @user.following.count.to_s
+    assert_select "#following", text: @following_count
     # フォロワー数の表示がユーザーのものと一致しているか
-    assert_select "#followers", text: @user.followers.count.to_s
+    assert_select "#followers", text: @followers_count
 
   end
 end
