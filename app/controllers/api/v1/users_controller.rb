@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      render @user.to_json, status: 200
+      render json: @user, status: 200
     else
       render json: @user.errors, status: :unprocessable_entity
     end
