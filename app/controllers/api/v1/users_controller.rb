@@ -25,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(params[:id])
+    @user = User.find_by(id: params[:id])
 
     if @user.nil?
       render json: {status: 404, content: {message: "No such user!"}} # :not_found
@@ -37,7 +37,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find_by(params[:id])
+    @user = User.find_by(id: params[:id])
     if @user.nil?
       render json: {status: :unprocessable_entity, content: {message: "No such user!"}}
     else
