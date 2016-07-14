@@ -1,4 +1,3 @@
-
 class Api::V1::UsersController < ApplicationController
 
   # CSRFの認証用 (設定を後で考える)
