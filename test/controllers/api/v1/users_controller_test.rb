@@ -6,7 +6,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     @user = users(:michael)
     @other_user = users(:archer)
     @new_user = { name: "Example User",
-                  email: "user@example.com",
+                  email: "kjefbjekbfjeb@example.com",
                   password: "password",
                   password_confirmation: "password"}
   end
@@ -41,6 +41,16 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
       post :create, format: 'json', user: @new_user
     end
     assert_response :unprocessable_entity
+  end
+
+  test "update attributes" do
+    patch :update, format: 'json', id: @other_user.id, user: @new_user
+    assert_response 200
+  end
+
+  test "can't update attributes when ID is unknown" do
+    patch :update, format: 'json', id: "abc", user: @new_user
+    assert_response 404
   end
 
 end

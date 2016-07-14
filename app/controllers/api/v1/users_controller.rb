@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      render nothing: true, status: 200
+      render @user.to_json, status: 200
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -28,21 +28,21 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
 
     if @user.nil?
-      render json: {status: 404, content: {message: "No such user!"}} # :not_found
+      render json: {status: 404, content: {message: "No such user!"}}, status: 404 # :not_found
     elsif @user.update_attributes(user_params)
-      render json: {status: 200, content: {message: "Updated!"}} # :ok
+      render json: {status: 200, content: {message: "Updated!"}}, status: 200 # :ok
     else
-      render json: {status: 422, content: {message: ""}} # :unprocessable_entity
+      render nothing: true, status: 422 # :unprocessable_entity
     end
   end
 
   def destroy
     @user = User.find_by(id: params[:id])
     if @user.nil?
-      render json: {status: :unprocessable_entity, content: {message: "No such user!"}}
+      render json: {status: :unprocessable_entity, content: {message: "No such user!"}}, status: :unprocessable_entity
     else
       @user.destroy
-      render json: {content: {message: "Deleted!"}}
+      render json: {content: {message: "Deleted!"}}, status: 200
     end
   end
 
