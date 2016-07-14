@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApplicationController
       @user.send_activation_email
       render nothing: true, status: 200
     else
-      render json: @user.errors
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
