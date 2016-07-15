@@ -35,14 +35,14 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
     # ユーザーが登録ステップに異常はないか
     assert_difference 'User.count', 1 do
-      post :create, format: 'json', user: @new_user
+      post :create, format: 'json', user: @new_user_params
     end
     assert_response :ok
 
     # 登録が正常に行われなかった場合の確認
     # 上と同データ (emailが衝突するはず)
     assert_no_difference 'User.count' do
-      post :create, format: 'json', user: @new_user
+      post :create, format: 'json', user: @new_user_params
     end
     assert_response :unprocessable_entity
   end
