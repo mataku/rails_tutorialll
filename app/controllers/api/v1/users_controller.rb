@@ -1,20 +1,22 @@
 class Api::V1::UsersController < ApplicationController
 
-  # CSRFの認証用 (設定を後で考える)
+  # CSRF回避 (設定を後で考える)
   skip_before_action :verify_authenticity_token
 
   def index
-    # ページごとにユーザーを表示する
-    @users = User.paginate(page: params[:page])
+    # ユーザー全ての取得
+    @users = User.all
     render json: @users
   end
 
   def show
+    # 対応するIDのユーザーを取得
     @user = User.find(params[:id])
     render json: @user
   end
 
   def create
+    # ユーザー登録
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
@@ -25,21 +27,23 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
+    # ユーザー情報の更新
     @user = User.find_by(id: params[:id])
 
     if @user.nil?
       render json: {status: 404, content: {message: "No such user!"}}, status: 404 # :not_found
     elsif @user.update_attributes(user_params)
-      render json: {status: 200, content: {message: "Updated!"}}, status: 200 # :ok
+      render nothing: true, status: 200 # :ok
     else
       render nothing: true, status: 422 # :unprocessable_entity
     end
   end
 
   def destroy
+    # ユーザーの削除
     @user = User.find_by(id: params[:id])
     if @user.nil?
-      render json: {status: :unprocessable_entity, content: {message: "No such user!"}}, status: :unprocessable_entity
+      render json: {status: 404, content: {message: "No such user!"}}, status: 404 # :not_found
     else
       @user.destroy
       render json: {content: {message: "Deleted!"}}, status: 200
@@ -48,6 +52,7 @@ class Api::V1::UsersController < ApplicationController
 
   private
 
+    # 入力の必須項目
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end

@@ -11,22 +11,26 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
                   password_confirmation: "password"}
   end
 
+  # ユーザー全ての取得
   test "GET api/v1/users" do
     get :index, format: 'json'
     assert_response 200
-    users = User.paginate(page: 1).to_json
+    users = User.all.to_json
     assert_match users, response.body
   end
 
+  # 対応するIDのユーザーを取得
   test "GET api/v1/users/:id" do
     get :show, format: 'json', id: @user.id
     assert_response 200
     assert_match @user.to_json, response.body
 
-    # 他のidのユーザーはいない
-    assert_no_match @other_user, response.body
+    # 他のidのユーザーはいないことの確認
+    # TODO: もっといい感じにしたい
+    assert_no_match @other_user.to_json, response.body
   end
 
+  # ユーザー登録
   test "POST api/v1/users" do
 
     # ユーザーが登録ステップに異常はないか
@@ -43,12 +47,15 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  # profileの更新 (正常)
   test "update attributes" do
     patch :update, format: 'json', id: @other_user.id, user: @new_user
     assert_response 200
   end
 
-  test "can't update attributes when ID is unknown" do
+  # profileの更新 (エラー)
+  test "should not update attributes when ID is unknown" do
+    # 存在しないID
     patch :update, format: 'json', id: "abc", user: @new_user
     assert_response 404
   end
