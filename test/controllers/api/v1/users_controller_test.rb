@@ -14,7 +14,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   # ユーザー全ての取得
   test "GET api/v1/users" do
     get :index, format: 'json'
-    assert_response 200
+    assert_response :ok
     users = User.all.to_json
     assert_match users, response.body
   end
@@ -22,7 +22,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   # 対応するIDのユーザーを取得
   test "GET api/v1/users/:id" do
     get :show, format: 'json', id: @user.id
-    assert_response 200
+    assert_response :ok
     assert_match @user.to_json, response.body
 
     # 他のidのユーザーはいないことの確認
@@ -37,7 +37,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     assert_difference 'User.count', 1 do
       post :create, format: 'json', user: @new_user
     end
-    assert_response 200
+    assert_response :ok
 
     # 登録が正常に行われなかった場合の確認
     # 上と同データ (emailが衝突するはず)
@@ -50,14 +50,14 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   # profileの更新 (正常)
   test "update attributes" do
     patch :update, format: 'json', id: @other_user.id, user: @new_user
-    assert_response 200
+    assert_response :ok
   end
 
   # profileの更新 (エラー)
   test "should not update attributes when ID is unknown" do
     # 存在しないID
     patch :update, format: 'json', id: "abc", user: @new_user
-    assert_response 404
+    assert_response :not_found
   end
 
 end
