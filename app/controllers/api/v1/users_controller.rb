@@ -50,6 +50,20 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def following
+    # 何を返すかを決める
+    # @user = User.find(params[:id])
+    # @users = @user.following
+    # render json: @users
+  end
+
+  def followers
+    # 何を返すかを決める
+    # @user = User.find(params[:id])
+    # @users = @user.followers
+    # render json: @users
+  end
+
   private
 
     # 入力の必須項目

@@ -28,7 +28,11 @@ Rails.application.routes.draw do
   # /api/v1/...
   namespace :api, format: 'json' do
     namespace :v1 do
-      resources :users
+      resources :users do
+        member do
+          get :following, :followers
+        end
+      end
     end
     resources :users
   end
