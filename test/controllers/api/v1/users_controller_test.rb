@@ -5,7 +5,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   def setup
     @user = users(:michael)
     @other_user = users(:archer)
-    @new_user = { name: "Example User",
+    @new_user_params = { name: "Example User",
                   email: "kjefbjekbfjeb@example.com",
                   password: "password",
                   password_confirmation: "password"}
@@ -49,14 +49,14 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   # profileの更新 (正常)
   test "update attributes" do
-    patch :update, format: 'json', id: @other_user.id, user: @new_user
+    patch :update, format: 'json', id: @other_user.id, user: @new_user_params
     assert_response :ok
   end
 
   # profileの更新 (エラー)
   test "should not update attributes when ID is unknown" do
     # 存在しないID
-    patch :update, format: 'json', id: "abc", user: @new_user
+    patch :update, format: 'json', id: "abc", user: @new_user_params
     assert_response :not_found
   end
 
